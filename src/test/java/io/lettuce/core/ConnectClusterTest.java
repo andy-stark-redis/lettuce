@@ -1,9 +1,11 @@
+// EXAMPLE: connect_cluster
+// STEP_START connect_cluster
+// REMOVE_START
 package io.lettuce.core;
-
+// REMOVE_END
 import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import io.lettuce.core.cluster.api.sync.RedisAdvancedClusterCommands;
 import io.lettuce.core.cluster.RedisClusterClient;
-
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
@@ -13,8 +15,8 @@ public class ConnectClusterTest {
     @Test
     public void connectCluster() {
         RedisURI uri = RedisURI.Builder
-                .redis("redis-13891.c34425.eu-west-2-mz.ec2.cloud.rlrcp.com", 13891)
-                .withAuthentication("default", "wtpet4pI5EgyJHyldPwR7xM7GaZB0EcG")
+                .redis("<host>", <port>)
+                .withAuthentication("default", "<password>")
                 .build();
         RedisClusterClient client = RedisClusterClient.create(uri);
         StatefulRedisClusterConnection<String, String> connection = client.connect();
@@ -35,3 +37,4 @@ public class ConnectClusterTest {
         // REMOVE_END
     }
 }
+// STEP_END

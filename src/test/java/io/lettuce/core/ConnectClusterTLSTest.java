@@ -1,10 +1,13 @@
+// EXAMPLE: connect_cluster_tls
+// STEP_START connect_cluster_tls
+// REMOVE_START
 package io.lettuce.core;
+// REMOVE_END
 import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
 import io.lettuce.core.cluster.api.sync.RedisClusterCommands;
 import io.lettuce.core.cluster.RedisClusterClient;
 import io.lettuce.core.cluster.ClusterClientOptions;
 import java.io.File;
-
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,8 +18,8 @@ public class ConnectClusterTLSTest {
     @Test
     public void connectClusterTLS() {
         RedisURI uri = RedisURI.Builder
-                .redis("redis-15313.c34461.eu-west-2-mz.ec2.cloud.rlrcp.com", 15313)
-                .withAuthentication("default", "MrlnkBuSZqO0s0vicIkLnqJXetbSTCan")
+                .redis("<host>", <port>)
+                .withAuthentication("default", "<password>")
                 .withSsl(true)
                 .withVerifyPeer(false)
                 .build();
@@ -25,7 +28,9 @@ public class ConnectClusterTLSTest {
 
         SslOptions sslOptions = SslOptions.builder()
             .jdkSslProvider()
-            .truststore(new File("/Users/andrew.stark/Documents/Repos/forks/lettuce/src/test/java/io/lettuce/core/truststore.jks"), "secret")
+            .truststore(new File(
+                "<path_to_truststore.jks_file>"),
+                "<password_for_truststore.jks_file>")
             .build();
 
         client.setOptions(ClusterClientOptions.builder()
@@ -34,6 +39,9 @@ public class ConnectClusterTLSTest {
 
         StatefulRedisClusterConnection<String, String> connection = client.connect();
         RedisClusterCommands<String, String> commands = connection.sync();
+        // REMOVE_START
+        commands.del("foo");
+        // REMOVE_END
 
         commands.set("foo", "bar");
         String result = commands.get("foo");
@@ -47,3 +55,4 @@ public class ConnectClusterTLSTest {
         // REMOVE_END
     }
 }
+// STEP_END

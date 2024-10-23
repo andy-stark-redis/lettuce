@@ -1,7 +1,10 @@
+// EXAMPLE: connect_basic
+// STEP_START connect_basic
+// REMOVE_START
 package io.lettuce.core;
+// REMOVE_END
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
 import org.junit.Test;
@@ -11,12 +14,15 @@ public class ConnectBasicTest {
     @Test
     public void connectBasic() {
         RedisURI uri = RedisURI.Builder
-                .redis("redis-14669.c338.eu-west-2-1.ec2.redns.redis-cloud.com", 14669)
-                .withAuthentication("default", "jj7hRGi1K22vop5IDFvAf8oyeeF98s4h")
+                .redis("<host>", <port>)
+                .withAuthentication("default", "<password>")
                 .build();
         RedisClient client = RedisClient.create(uri);
         StatefulRedisConnection<String, String> connection = client.connect();
         RedisCommands<String, String> commands = connection.sync();
+        // REMOVE_START
+        commands.del("foo");
+        // REMOVE_END
 
         commands.set("foo", "bar");
         String result = commands.get("foo");
@@ -30,3 +36,4 @@ public class ConnectBasicTest {
         // REMOVE_END
     }
 }
+// STEP_END

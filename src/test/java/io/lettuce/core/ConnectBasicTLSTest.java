@@ -1,7 +1,10 @@
+// EXAMPLE: connect_basic_tls
+// STEP_START connect_basic_tls
+// REMOVE_START
 package io.lettuce.core;
+// REMOVE_END
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
 
@@ -14,8 +17,8 @@ public class ConnectBasicTLSTest {
     @Test
     public void connectBasicTLS() {
         RedisURI uri = RedisURI.Builder
-                .redis("redis-13891.c34425.eu-west-2-mz.ec2.cloud.rlrcp.com", 13891)
-                .withAuthentication("default", "wtpet4pI5EgyJHyldPwR7xM7GaZB0EcG")
+                .redis("<host>", <port>)
+                .withAuthentication("default", "<password>")
                 .withSsl(true)
                 .build();
                 
@@ -23,7 +26,9 @@ public class ConnectBasicTLSTest {
 
         SslOptions sslOptions = SslOptions.builder()
             .jdkSslProvider()
-            .truststore(new File("/Users/andrew.stark/Documents/Repos/forks/lettuce/src/test/java/io/lettuce/core/truststore.jks"), "secret")
+            .truststore(new File(
+                "<path_to_truststore.jks_file>"),
+                "<password_for_truststore.jks_file>")
             .build();
 
         client.setOptions(ClientOptions.builder()
@@ -32,6 +37,9 @@ public class ConnectBasicTLSTest {
 
         StatefulRedisConnection<String, String> connection = client.connect();
         RedisCommands<String, String> commands = connection.sync();
+        // REMOVE_START
+        commands.del("foo");
+        // REMOVE_END
 
         commands.set("foo", "bar");
         String result = commands.get("foo");
@@ -45,3 +53,4 @@ public class ConnectBasicTLSTest {
         // REMOVE_END
     }
 }
+// STEP_END

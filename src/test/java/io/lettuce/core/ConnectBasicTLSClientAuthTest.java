@@ -1,7 +1,10 @@
+// EXAMPLE: connect_basic_tls_client_auth
+// STEP_START connect_basic_tls_client_auth
+// REMOVE_START
 package io.lettuce.core;
+// REMOVE_END
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
-
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
 
@@ -14,8 +17,8 @@ public class ConnectBasicTLSClientAuthTest {
     @Test
     public void connectBasicTLSClientAuth() {
         RedisURI uri = RedisURI.Builder
-                .redis("redis-13891.c34425.eu-west-2-mz.ec2.cloud.rlrcp.com", 13891)
-                .withAuthentication("default", "wtpet4pI5EgyJHyldPwR7xM7GaZB0EcG")
+                .redis("<host>", <port>)
+                .withAuthentication("default", "<password>")
                 .withSsl(true)
                 .build();
                 
@@ -23,8 +26,10 @@ public class ConnectBasicTLSClientAuthTest {
 
         SslOptions sslOptions = SslOptions.builder()
             .jdkSslProvider()
-            .truststore(new File("/Users/andrew.stark/Documents/Repos/forks/lettuce/src/test/java/io/lettuce/core/truststore.jks"), "secret")
-            .keystore(new File("/Users/andrew.stark/Documents/Repos/forks/lettuce/src/test/java/io/lettuce/core/redis-user-keystore.p12"), "secret".toCharArray())
+            .truststore(new File("<path_to_truststore.jks_file>"),
+                "<password_for_truststore.jks_file>")
+            .keystore(new File("<path_to_keystore.p12_file>"),
+                "<password_for_keystore.p12_file>".toCharArray())
             .build();
 
         client.setOptions(ClientOptions.builder()
@@ -33,7 +38,10 @@ public class ConnectBasicTLSClientAuthTest {
 
         StatefulRedisConnection<String, String> connection = client.connect();
         RedisCommands<String, String> commands = connection.sync();
-
+        // REMOVE_START
+        commands.del("foo");
+        // REMOVE_END
+        
         commands.set("foo", "bar");
         String result = commands.get("foo");
         System.out.println(result); // >>> bar
@@ -46,3 +54,4 @@ public class ConnectBasicTLSClientAuthTest {
         // REMOVE_END
     }
 }
+//STEP_END
