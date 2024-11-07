@@ -3,13 +3,12 @@
 // REMOVE_START
 package io.lettuce.core;
 // REMOVE_END
+import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
+import java.io.File;
 // REMOVE_START
 import static org.assertj.core.api.Assertions.*;
-
-import java.io.File;
-
 import org.junit.Test;
 // REMOVE_END
 

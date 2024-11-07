@@ -3,6 +3,7 @@
 // REMOVE_START
 package io.lettuce.core;
 // REMOVE_END
+import io.lettuce.core.*;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 // REMOVE_START
